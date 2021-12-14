@@ -1,29 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import styles from "../styles/Header.module.scss";
+// Styles
+import styled from 'styled-components';
+import palette from "../styles/palette";
+
 import AirbnbLogoIcon from "../public/static/svg/logo/airbnb_logo.svg";
 import AirbnbLogoTextIcon from "../public/static/svg/logo/airbnb_logo_text.svg";
 
+import useModal from "../hooks/useModal";
+import SignUpModal from "./auth/SignUpModal";
+
+const Container = styled.div`
+  position: sticky; // Header는 위에 붙어있다.
+  top: 0;
+  width: 100%;
+  height: 80px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 80px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+  z-index: 10;
+
+  .header-logo-wrapper {
+    display: flex;
+    align-items: center;
+    .header-logo {
+      margin-right: 6px;
+    }
+  }
+
+  .header-auth-buttons {
+    .header-sign-up-button {
+      height: 42px;
+      margin-right: 8px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 21px;
+      background-color: white;
+      cursor: pointer;
+      outline: none;
+      &:hover {
+        background-color: ${palette.gray_f7};
+      }
+    }
+    .header-login-button {
+      height: 42px;
+      padding: 0 16px;
+      border: 0;
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.18);
+      border-radius: 21px;
+      background-color: white;
+      cursor: pointer;
+      outline: none;
+      &:hover {
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+`;
+
 const Header: React.FC = () => {
-    console.log(styles);
+    const {openModalPortal, closeModalPortal, ModalPortal} = useModal();
     return (
-        <div className={styles.container}>
+        <Container>
             <Link href="/">
-                <a className={styles["header-logo-wrapper"]}>
+                <a className="header-logo-wrapper">
                     <AirbnbLogoIcon className="header-logo" />
                     <AirbnbLogoTextIcon />
                 </a>
             </Link>
-            <div className={styles["header-auth-buttons"]}>
-                <button className={styles["header-sign-up-button"]}>
+            <div className="header-auth-buttons">
+                <button className="header-sign-up-button" onClick={openModalPortal}>
                     회원가입
                 </button>
-                <button className={styles["header-login-button"]}>
+                <button className="header-login-button">
                     로그인
                 </button>
             </div>
-        </div>
-
+            <ModalPortal>
+                <SignUpModal />
+            </ModalPortal>
+        </Container>
     );
     
 }
