@@ -14,6 +14,8 @@ import Button from "../common/Button";
 import { dayList, yearList, monthList } from "../../lib/staticData";
 import palette from "../../styles/palette";
 import { signupAPI } from "../../lib/api/auth";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/user";
 
 const Container = styled.form`
   width: 568px;
@@ -78,6 +80,8 @@ function SignUpModal() {
     const [birthYear, setBirthYear] = useState<string | undefined>();
     const [birthDay, setBirthDay] = useState<string | undefined>();
 
+    const dispatch = useDispatch();
+
     const toggleHidePassword = () => {
         setHidePassword(!hidePassword);
     };
@@ -114,7 +118,8 @@ function SignUpModal() {
                 password,
                 birthday: new Date(`${birthYear}-${birthMonth!.replace("월", "")}-${birthDay}`).toISOString(),
             };
-            await signupAPI(signUpBody);
+            const {data} = await signupAPI(signUpBody);
+            dispatch(userActions.setLoggedUser(data));
         } catch (error) {
             console.log(e);
         }
