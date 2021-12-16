@@ -16,6 +16,8 @@ import palette from "../../styles/palette";
 import { signupAPI } from "../../lib/api/auth";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../store/user";
+import { commonActions } from "../../store/common";
+import useValidateMode from "../../hooks/useValidateMode";
 
 const Container = styled.form`
   width: 568px;
@@ -81,6 +83,7 @@ function SignUpModal() {
     const [birthDay, setBirthDay] = useState<string | undefined>();
 
     const dispatch = useDispatch();
+    const {setValidateMode} = useValidateMode();
 
     const toggleHidePassword = () => {
         setHidePassword(!hidePassword);
@@ -110,6 +113,7 @@ function SignUpModal() {
 
     const onSubmitSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e?.preventDefault();
+        dispatch(commonActions.setValidateMode(true));
         try {
             const signUpBody = {
                 email,
@@ -118,8 +122,11 @@ function SignUpModal() {
                 password,
                 birthday: new Date(`${birthYear}-${birthMonth!.replace("월", "")}-${birthDay}`).toISOString(),
             };
-            const {data} = await signupAPI(signUpBody);
-            dispatch(userActions.setLoggedUser(data));
+            if(!email || !lastname || !!firstname || !password) {
+                return undefined;
+            }
+            const {data} = await signupAPI(signUpBody); // Axios
+            setValidateMode(true); // 상태 변화 -> 자동으로 Input Props의 변화 유도
         } catch (error) {
             console.log(e);
         }
@@ -128,17 +135,17 @@ function SignUpModal() {
     return <Container onSubmit={onSubmitSignUp}>
         <CloseXIcon className="modal-close-x-icon"/>
         <div className="input-wrapper">
-            <Input type="email" placeholder="이메일 주소" icon={<MailIcon/>} onChange={onChangeEmail}/>
+            <Input type="email" placeholder="이메일 주소" icon={<MailIcon/>} onChange={onChangeEmail} isValid={!!email} errorMessage="이메일이 필요합니다."/>
         </div>
         <div className="input-wrapper">
-            <Input placeholder="이름(예: 길동)" icon={<PersonIcon/>} onChange={onChangeLastname}/>
+            <Input placeholder="이름(예: 길동)" icon={<PersonIcon/>} onChange={onChangeLastname} isValid={!!lastname} errorMessage="이름이 필요합니다."/>
         </div>
         <div className="input-wrapper">
-            <Input placeholder="성(예: 홍)" icon={<PersonIcon/>} onChange={onChangeFirstname}/>
+            <Input placeholder="성(예: 홍)" icon={<PersonIcon/>} onChange={onChangeFirstname} isValid={!!firstname} errorMessage="성이 필요합니다."/>
         </div>
         <div className="input-wrapper sign-up-password-input-wrapper">
             <Input placeholder="비밀번호 설정하기" type="password" 
-                icon={hidePassword?<ClosedEyeIcon onClick={toggleHidePassword}/>:<OpenedEyeIcon onClick={toggleHidePassword}/>}
+                icon={hidePassword?<ClosedEyeIcon onClick={toggleHidePassword}/>:<OpenedEyeIcon onClick={toggleHidePassword} onChange={onChangeEmail} isValid={!!password} errorMessage="비밀번호가 필요합니다."/>}
                 onChange={onChangePassword}/>
         </div>
         <p className="sign-up-birthdat-label">생일</p>
