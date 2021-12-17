@@ -14,22 +14,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.statusCode = 400;
             return res.send("필수 데이터가 없습니다.");
         }
+
         //  email로 등록된 유저가 있는 지 확인
-        const userExist = Data.user.exist({email});
-        if(userExist) {
-            res.statusCode=409;
-            res.send("이미 가입된 이메일입니다.");
-        }
+        // const userExist = Data.user.exist({email});
+        // if(userExist) {
+        //     res.statusCode=409;
+        //     res.send("이미 가입된 이메일입니다.");
+        //     return res.end();
+        // }
         // 암호화
-        const hashedPassword = bcrypt.hashSync(password, 8);
         // User 정보 저장
+        const hashedPassword = bcrypt.hashSync(password, 8);
         const users = Data.user.getList();
         let userId;
+
         if(users.length === 0) {
             userId = 1;
         } else{
             userId = users[users.length - 1].id + 1;
         }
+        
         const newUser: StoredUserType = {
             id: userId,
             email,

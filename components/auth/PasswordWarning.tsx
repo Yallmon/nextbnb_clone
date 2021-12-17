@@ -22,7 +22,7 @@ interface PasswordWarningProps {
 function PasswordWarning({isValid, text}: PasswordWarningProps) {
     return ( 
         <Container isValid={isValid}>
-            {isValid ? <RedXIcon /> : <GreenCheckIcon />}
+            {isValid ? <GreenCheckIcon /> : <RedXIcon />}
             {text}
 
         </Container>

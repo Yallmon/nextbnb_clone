@@ -163,7 +163,6 @@ function SignUpModal({closeModal}:Iprops) {
             !isPasswordOverMinLength ||
             !isPasswordHasNumberOrSymbol
         ) {
-            console.log("this");
             return false;
         }
         // 값의 유무
@@ -174,10 +173,9 @@ function SignUpModal({closeModal}:Iprops) {
     };
 
     const onSubmitSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-        e?.preventDefault();
+        e.preventDefault();
         setValidateMode(true);
-        console.log(isPasswordOverMinLength, isPasswordHasNameOrEmail, isPasswordHasNumberOrSymbol);
-        console.log(validateSignUpForm());
+
         if(validateSignUpForm()){ //SignUpForm 의 벨리데이션이 끝나면 Axios api 요청
             try {
                 const signUpBody = {
@@ -187,10 +185,10 @@ function SignUpModal({closeModal}:Iprops) {
                     password,
                     birthday: new Date(`${birthYear}-${birthMonth!.replace("월", "")}-${birthDay}`).toISOString(),
                 };
-
                 const {data} = await signupAPI(signUpBody); // Axios
                 dispatch(userActions.setLoggedUser(data));
                 setValidateMode(true); // 상태 변화 -> 자동으로 Input Props의 변화 유도
+
             } catch (error) {
                 console.log(error);
             }
@@ -210,23 +208,22 @@ function SignUpModal({closeModal}:Iprops) {
         </div>
         <div className="input-wrapper sign-up-password-input-wrapper">
             <Input placeholder="비밀번호 설정하기" type="password" 
-                icon={hidePassword?<ClosedEyeIcon onClick={toggleHidePassword}/>:<OpenedEyeIcon onClick={toggleHidePassword}
-                    isValid={!isPasswordHasNameOrEmail &&
-                        isPasswordOverMinLength &&
-                        !isPasswordHasNumberOrSymbol
-                    } 
-                    errorMessage="비밀번호가 필요합니다."/>
+                icon={hidePassword?<ClosedEyeIcon onClick={toggleHidePassword}/>:<OpenedEyeIcon onClick={toggleHidePassword}/>}
+                isValid={!isPasswordHasNameOrEmail &&
+                    isPasswordOverMinLength &&
+                    isPasswordHasNumberOrSymbol
                 }
+                errorMessage="비밀번호가 필요합니다."
                 onChange={onChangePassword}
                 onFocus={onFocusPassword}
-                />
+            />
         </div>
         {
             passwordFocused && (
                 <>
-                    <PasswordWarning isValid={isPasswordHasNameOrEmail} text="비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다."/>
-                    <PasswordWarning isValid={!isPasswordOverMinLength} text="비밀번호는 최소 8자 이상이여야 합니다.."/>
-                    <PasswordWarning isValid={!isPasswordHasNumberOrSymbol} text="숫자와 함께 기호를 포함하세요."/>
+                    <PasswordWarning isValid={!isPasswordHasNameOrEmail} text="비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다."/>
+                    <PasswordWarning isValid={isPasswordOverMinLength} text="비밀번호는 최소 8자 이상이여야 합니다.."/>
+                    <PasswordWarning isValid={isPasswordHasNumberOrSymbol} text="숫자나 기호를 포함하세요."/>
                 </>
             )
         }

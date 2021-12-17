@@ -76,7 +76,6 @@ function Input({
   ...props
   }:Iprops) {
     const { validateMode } = useValidateMode();
-    // const validateMode = myUseSelector((state) => state.common.validateMode);
 
     return <Container iconExist={!!icon} isValid={isValid} useValidation={validateMode && useValidation}>
         <input {...props} />
