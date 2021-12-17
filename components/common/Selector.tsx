@@ -1,8 +1,9 @@
 import React from "react";
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
+import { myUseSelector } from "../../store";
 import palette from "../../styles/palette";
 
-const Container = styled.div`
+const Container = styled.div<{isValid: boolean; validateMode: boolean}>`
   select{
     width: 100%;
     height: 100%;
@@ -20,15 +21,28 @@ const Container = styled.div`
         border-color: ${palette.dark_cyan};
     }
   }
+  ${({isValid, validateMode}) => validateMode &&
+    css`
+        select {
+            border-color: ${isValid ? palette.dark_cyan : palette.tawny} !important;
+            background-color: ${isValid ? "white" : palette.snow};
+
+        }    
+    `
+  }
 `;
 
 interface Iprops extends React.SelectHTMLAttributes<HTMLSelectElement> {
     options?: string[];
     disabledOptions?: string[];
+    isValid?: boolean;
 }
 
-function Selector({options = [], disabledOptions=[], ...props}:Iprops) {
-    return <Container>
+function Selector({options = [], disabledOptions=[], isValid, ...props}:Iprops) {
+
+    const validateMode = myUseSelector((state) => state.common.validateMode);
+
+    return <Container isValid={!!isValid} validateMode={validateMode}>
         <select {...props}>
             {disabledOptions.map((option, index) => (
                 <option key={index} value={option} disabled>

@@ -15,5 +15,5 @@ const common = createSlice({
     },
 });
 
-export const commonAction = {...common.actions};
+export const commonActions = {...common.actions};
 export default common;

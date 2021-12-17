@@ -29,7 +29,7 @@ function useModal() {
     const openModalPortal = () => {
         setModalOpened(true);
     };
-    const closeModalPortal = (event: any) => {
+    const closeModalPortal = (event: React.MouseEvent<HTMLDivElement>) => {
         if(event.target == event.currentTarget){
             setModalOpened(false);
         }

@@ -1,10 +1,8 @@
-/* eslint-disable import/no-anonymous-default-export */
-
 import { myUseSelector } from "../store";
 import { useDispatch } from "react-redux"
 import { commonActions } from "../store/common";
 
-export default() => {
+function useValidate() {
     const dispatch = useDispatch();
     const validateMode = myUseSelector((state) => state.common.validateMode);
 
@@ -13,5 +11,6 @@ export default() => {
     }
 
     return { validateMode, setValidateMode };
-    
-}
+};
+
+export default useValidate;

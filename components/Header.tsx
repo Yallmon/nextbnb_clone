@@ -82,7 +82,7 @@ const Header: React.FC = () => {
                 </button>
             </div>
             <ModalPortal>
-                <SignUpModal />
+                <SignUpModal closeModal={closeModalPortal}/>
             </ModalPortal>
         </Container>
     );
