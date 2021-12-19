@@ -19,6 +19,7 @@ import { userActions } from "../../store/user";
 import { commonActions } from "../../store/common";
 import useValidateMode from "../../hooks/useValidateMode";
 import PasswordWarning from "./PasswordWarning";
+import { authActions } from "../../store/auth";
 
 const Container = styled.form`
   width: 568px;
@@ -64,11 +65,11 @@ const Container = styled.form`
       .sign-up-modal-birthday-year-selector {
         width: 33.3333%;
       }
-    .sign-up-modal-submit-button-wrapper {
-        margin-bottom: 16px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid ${palette.gray_eb};
     }
+  .sign-up-modal-submit-button-wrapper {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid ${palette.gray_eb};
   }
   .sign-up-modal-set-login {
       color: ${palette.dark_cyan};
@@ -81,6 +82,7 @@ const PASSWORD_MIN_LENGTH = 8;
 interface Iprops {
     closeModal: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
+
 function SignUpModal({closeModal}:Iprops) {
     const [email, setEmail] = useState("");
     const [lastname, setLastname] = useState("");
@@ -194,9 +196,13 @@ function SignUpModal({closeModal}:Iprops) {
             }
         } 
     };
+    // Modal Change
+    const changeToLoginModal = () => {
+        dispatch(authActions.setAuthMode("login"));
+    };
 
     return <Container onSubmit={onSubmitSignUp}>
-        <CloseXIcon className="modal-close-x-icon"/>
+        <CloseXIcon className="modal-close-x-icon" onClick={closeModal}/>
         <div className="input-wrapper">
             <Input type="email" placeholder="이메일 주소" icon={<MailIcon/>} onChange={onChangeEmail} isValid={!!email} errorMessage="이메일이 필요합니다."/>
         </div>
@@ -244,8 +250,8 @@ function SignUpModal({closeModal}:Iprops) {
         <div className="sign-up-modal-submit-button-wrapper">
             <Button type="submit"> 가입하기 </Button>
         </div>
-        <p>이미 에어비앤비 계정이 있나요?
-            <span className="sign-up-modal-set-login" onClick={() => {}}>
+        <p> 이미 에어비앤비 계정이 있나요?
+            <span className="sign-up-modal-set-login" onClick={changeToLoginModal}>
                 로그인
             </span>
 
