@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           return res.send("비밀번호가 일치하지 않습니다.");
         }
 
-        const token = jwt.sign(String(user.id), "my_private_secret");
+        const token = jwt.sign(String(user.id), process.env.JWT_SECRET!);
         res.setHeader(
           "Set-Cookie",
           `access_token=${token}; path=/; expires=${new Date(

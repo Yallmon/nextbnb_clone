@@ -21,6 +21,10 @@ const user = createSlice({ // Slice Reducer 생성
             state = {...action.payload, isLogged: true};
             return state;
         },
+        initUser(state) {
+            state = initialState;
+            return state;
+        }
     },
 });
 
