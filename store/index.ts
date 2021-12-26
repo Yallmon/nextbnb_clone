@@ -6,13 +6,14 @@ import { combineReducers } from "redux";
 import user from "./user"; // Reducer 등록
 import common from "./common"; // Reducer 등록
 import auth from "./auth";
-
+import searchRoom from "./searchRoom";
 
 
 const rootReducer = combineReducers({
     user: user.reducer,
     common: common.reducer,
     auth: auth.reducer,
+    searchRoom: searchRoom.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>; // 타입스크립트(암기) : 외부에서 State 접근할 때 type 사용

@@ -1,8 +1,11 @@
 import React from "react";
+import {NextPage} from "next";
+import Home from "../components/home/Home";
 
-const index: React.FC = () => {
+
+const index: NextPage = () => {
   return <div>
-    hello world!
+    <Home></Home>
   </div>
 }
 
