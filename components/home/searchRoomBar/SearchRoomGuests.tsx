@@ -98,7 +98,7 @@ function SearchRoomGuests() {
                         <Counter 
                             label="성인"
                             description="만 13세 이상"
-                            minValue={1}
+                            minValue={0}
                             value={adultCount}
                             onChange={(count) => setAdultCountDispatch(count)}/>
                     </div>
@@ -106,7 +106,7 @@ function SearchRoomGuests() {
                         <Counter 
                             label="어린이"
                             description="2~12세"
-                            minValue={1}
+                            minValue={0}
                             value={childrenCount}
                             onChange={(count) => setChildrenCountDispatch(count)}/>
                     </div>
@@ -114,7 +114,7 @@ function SearchRoomGuests() {
                         <Counter 
                             label="유아"
                             description="2세 미만"
-                            minValue={1}
+                            minValue={0}
                             value={infantsCount}
                             onChange={(count) => setInfantsCountDispatch(count)}/>
                     </div>

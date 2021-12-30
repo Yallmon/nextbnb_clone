@@ -110,19 +110,19 @@ function SignUpModal({closeModal}:Iprops) {
     };
     const onChangeFirstname = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFirstname(e.target.value);
-    }
+    };
     const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
-    }
+    };
     const onChangeBirthMonth = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setBirthMonth(e.target.value);
-    }
+    };
     const onChangeBirthDay = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setBirthDay(e.target.value);
-    }
+    };
     const onChangeBirthYear = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setBirthYear(e.target.value);
-    }
+    };
     const onFocusPassword = () => {
         setpasswordFocused(true);
     };

@@ -6,6 +6,7 @@ import { logoutAPI } from "../lib/api/auth";
 import { userActions } from "../store/user";
 import { useDispatch } from "react-redux";
 import { myUseSelector } from "../store";
+import Link from "next/link";
 
 
  
@@ -34,7 +35,11 @@ const HeaderUserProfile= () => {
             {isUsermenuOpened && (
                 <ul className="header-usermenu">
                 <li>숙소 관리</li>
-                <li>숙소 등록하기</li>
+                <Link href="/room/register/building">
+                  <a onClick={() => {setIsUsermenuOpened(false)}}>
+                    <li>숙소 등록하기</li>
+                  </a>
+                </Link>
                 <div className="header-usermenu-divider" />
                 <li onClick={logout}>로그 아웃</li>
                 </ul>

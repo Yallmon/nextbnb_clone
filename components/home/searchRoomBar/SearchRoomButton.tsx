@@ -9,9 +9,9 @@ function SearchRoomButton() {
     const searchRoom = myUseSelector((state) => state.searchRoom);
     const roomListHref = "/room?" + queryString.stringify(searchRoom);
 
-    return ( <Link href="#">
+    return ( <Link href={roomListHref}>
         <a> 
-            <Button icon={<SearchIcon/>} color="amaranth" width="89px" onClick={() => {alert(roomListHref)}}> 검색 </Button>
+            <Button icon={<SearchIcon/>} color="amaranth" width="89px" > 검색 </Button>
         </a>
     </Link> );
 }
