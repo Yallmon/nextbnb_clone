@@ -117,4 +117,6 @@ export const apartmentBuildingTypeList = [
     "레지던스",
     "객잔(중국)",
   ];
+
+  export const bedroomCountList = Array.from(Array(16), (_, i) => `침실 ${i}개`);
   

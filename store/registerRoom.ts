@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type {BedType} from "../types/room";
 
 
 type RegisterRoomState = {
@@ -6,13 +7,23 @@ type RegisterRoomState = {
     buildingType : string | null;
     roomType: string | null;
     isSetUpForGuest: boolean | null;
+    maximumGuestCount: number;
+    bedroomCount: number;
+    bedCount: number;
+    bedList: {id: number; beds: {type: BedType; count: number}}[];
+    publicBedList: {type: BedType; count: number}[];
 };
 
 const initialState: RegisterRoomState = {
     largeBuildingType: null,
     buildingType: null,
     roomType: null,
-    isSetUpForGuest: null
+    isSetUpForGuest: null,
+    maximumGuestCount: 1,
+    bedroomCount: 0,
+    bedCount: 1,
+    bedList: [],
+    publicBedList: [],
 };
 
 const registerRoom = createSlice({
@@ -40,7 +51,24 @@ const registerRoom = createSlice({
         setIsSetUpForGuest(state, action: PayloadAction<boolean>) {
             state.isSetUpForGuest = action.payload;
             return state;
-        }
+        },
+        setMaximumGuestCount(state, action: PayloadAction<number>) {
+            state.maximumGuestCount = action.payload;
+            return state;
+        },
+        setBedroomCount(state, action: PayloadAction<number>) {
+            const bedroomCount = action.payload;
+            state.bedroomCount = bedroomCount;
+            // state.bedList = Array.from(Array(bedroomCount), (_, index) => ({
+            //     id: index + 1,
+            //     beds: [],
+            // }));
+            return state;
+        },
+        setBedCount(state, action: PayloadAction<number>) {
+            state.bedCount = action.payload;
+            return state;
+        },
     },
 });
 
